@@ -2,7 +2,7 @@
 Sistema de Login com registro de novo usuário e recuperação de senha
 
 ## aula03 - 08/08/2019
-Sistema de Validação de formularios
+Sistema de Validação de formularios.
 
 ## aula01 - 18/07/2019
 Configuramos o projeto, milestones e issues para o sistema de login.
