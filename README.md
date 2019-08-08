@@ -1,13 +1,16 @@
 # sistema_de_login_AIPR2019v1
-sistema de login com registro de novo usuário a recuperação  de senha...
+Sistema de Login com registro de novo usuário e recuperação de senha
+
+## aula03 - 08/08/2019
+Sistema de Validação de formularios
 
 ## aula01 - 18/07/2019
-configuramos o projeto, milestones e issues para o sistema de login.
-criação do arquivo index.php
+Configuramos o projeto, milestones e issues para o sistema de login.
+Criação do arquivo index.php e formulário de login.
 
+## aula02 - 19/07/2019 
+:rocket: :moon: 50 anos do homem na Lua 🌝 🌚
 
-## aula 02 - 19/07/2019
-:rockt 50 anos do homen na lua :moon:
-Formolario  de cadastro
-Formulario de Recuperação de senha 
-Exibir e ocultar Formularios com jQuery
+* Formulário de cadastro de novo usuário.
+* Formulário de recuperação de senha.
+* mostrar e ocultar formulários com jQuery.
