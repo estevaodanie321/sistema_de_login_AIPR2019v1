@@ -153,43 +153,38 @@
                     });
                 }
             });
-
+            //Formulário de Cadastro de usuário
             $('#btnRegistrar').click(function(e) {
                 let formCadastro = document.querySelector("#formCadastro");
                 if (formCadastro.checkValidity()) {
-                    e.preventDefault(); //Não recarregar a página 
+                    e.preventDefault(); //Sem recarregar o formulário
                     $.ajax({
                         url: 'recebe.php',
                         method: 'post',
                         data: $('#formCadastro').serialize() + '&action=cadastro',
                         success: function(resposta) {
                             $('#alerta').show();
-                            $('#resultado').html("resposta:" + resposta);
+                            $('#resultado').html(resposta);
                         }
                     });
                 }
             });
-
+            //Formulário para mudar de senha
             $('#btnEnviarEmail').click(function(e) {
-                let formSenha = document.querySelector("#formSenha");
+                let formSenha = document.querySelector('#formSenha');
                 if (formSenha.checkValidity()) {
-                    e.preventDefault(); //Não recarregar a página 
+                    e.preventDefault(); //Não recarregar a página
                     $.ajax({
                         url: 'recebe.php',
                         method: 'post',
                         data: $('#formSenha').serialize() + '&action=senha',
                         success: function(resposta) {
                             $('#alerta').show();
-                            $('#resultado').html("resposta:" + resposta);
+                            $('#resultado').html(resposta);
                         }
                     });
                 }
             });
-
-            //Formulário de Cadastro de usuário
-            $('#btnRegistrar').click(function(e) {});
-            //Formulário para mudar de senha
-            $('#btnEnviarEmail').click(function(e) {});
             //Trocar da Tela de Login para Recuperar Senha
             $("#btnEsqueci").click(function() {
                 $("#caixaLogin").hide();
