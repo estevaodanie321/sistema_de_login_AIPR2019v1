@@ -1,6 +1,11 @@
 # sistema_de_login_AIPR2019v1
 Sistema de Login com registro de novo usuário e recuperação de senha
 
+## aula06 - 30/08/2019
+Última sexta-feira de agosto 
+Cadastros de usuarios
+
+
 ## aula05 - 23/08/2019
 Criação de dados e caadastro de Úsuario
 

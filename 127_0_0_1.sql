@@ -30,15 +30,18 @@ USE `sistemadelogin`;
 --
 -- Estrutura da tabela `usuario`
 --
+-- Criação: 23-Ago-2019 às 17:10
+-- Última actualização: 23-Ago-2019 às 17:10
+--
 
 DROP TABLE IF EXISTS `usuario`;
 CREATE TABLE `usuario` (
-  `idUsuario` int(10) UNSIGNED NOT NULL,
-  `nome` varchar(100) COLLATE utf8mb4_bin NOT NULL,
-  `nomeUsuario` varchar(100) COLLATE utf8mb4_bin NOT NULL,
-  `email` varchar(100) COLLATE utf8mb4_bin NOT NULL,
-  `senha` char(40) COLLATE utf8mb4_bin NOT NULL,
-  `dataCiacao` datetime NOT NULL
+`idUsuario` int(10) UNSIGNED NOT NULL,
+`nome` varchar(100) COLLATE utf8mb4_bin NOT NULL,
+`nomeUsuario` varchar(100) COLLATE utf8mb4_bin NOT NULL,
+`email` varchar(100) COLLATE utf8mb4_bin NOT NULL,
+`senha` char(40) COLLATE utf8mb4_bin NOT NULL,
+`dataCriacao` datetime NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
 --
@@ -49,8 +52,8 @@ CREATE TABLE `usuario` (
 -- Índices para tabela `usuario`
 --
 ALTER TABLE `usuario`
-  ADD PRIMARY KEY (`idUsuario`),
-  ADD UNIQUE KEY `email` (`email`);
+ADD PRIMARY KEY (`idUsuario`),
+ADD UNIQUE KEY `email` (`email`);
 
 --
 -- AUTO_INCREMENT de tabelas despejadas
@@ -60,7 +63,7 @@ ALTER TABLE `usuario`
 -- AUTO_INCREMENT de tabela `usuario`
 --
 ALTER TABLE `usuario`
-  MODIFY `idUsuario` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+MODIFY `idUsuario` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
