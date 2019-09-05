@@ -1,5 +1,6 @@
 <?php
-
+//Inicializando a sessão
+session_start();
 //É necessario fazer a conexão com o banco de dados
 require_once "configDB.php";
 
@@ -10,8 +11,27 @@ function verificar_entrada($entrada)
     $saida = htmlspecialchars($saida);
     return $saida;
 }
+if(isset($_POST['action']) && $_POST['action'] == 'login'){
+    //Verificação e Login do usuario
+    $nomeUsuario = verificar_entrada($_POST['nomeUsuario']);
+    $senhaUsuario = verificar_entrada($_POST['senhaUsuario']);
+    $senha = sha1($senhaUsuario);
+    //para tesrte
+    //echo "Usuário: $nomeUsuario - senha=$senha";
+    $sql = $conecta->prepare("SELECT * FROM usuario WHERE nomeUsuario = ? AND senha = ?");
+    $sql->bind_param("ss", $nomeUsuario, $senha);
+    $sql->execute();
 
-if (isset($_POST['action']) && $_POST['action'] == 'cadastro') {
+    $busca = $sql->fetch();
+    if($busca != null){
+        //Colacando o nome do usuário na Sessão
+        $_SESSION['nomeUsuario'] = $nomeUsuario;
+        echo "ok!";
+    }else{
+        echo "Usuário e senha não conferem!";
+    }
+}
+else if (isset($_POST['action']) && $_POST['action'] == 'cadastro') {
 
     //pegar os campos do formulario
     $nomeCompleto = verificar_entrada($_POST['nomeCompleto']);
@@ -47,7 +67,7 @@ if (isset($_POST['action']) && $_POST['action'] == 'cadastro') {
             if ($sql->execute()) {
                 echo "<p>Registrado com sucesso</p>";
             } else {
-                echo "<p>Aldo deu errado. Tente outra vez</p>";
+                echo "<p>Algo deu errado. Tente outra vez</p>";
             }
         }
     }
