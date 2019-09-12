@@ -2,7 +2,6 @@
 //Protegendo profile.php só para usuários logados
 require_once 'session.php';
 ?>
-
 <!doctype html>
 <html lang="pt-br">
 
@@ -14,7 +13,7 @@ require_once 'session.php';
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
-    <title>Perfil de <?= $usuario ?></title>
+    <title>Albúm de Fotos</title>
 </head>
 
 <body class="bg-dark">
@@ -30,10 +29,10 @@ require_once 'session.php';
                     <a class="nav-link" href="profile.php">Perfil <span class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="slider.php">Splash art lol</a>
+                    <a class="nav-link" href="slider.php">Fotos</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="profile.php">Perfil</a>
+                    <a class="nav-link" href="#">Link 3</a>
                 </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -49,26 +48,46 @@ require_once 'session.php';
         </div>
     </nav>
 
-
-
-
-
-    <div class="container">
-        <div class="row">
-            <div class="col-9">
-                <h1 class="text-light mb-5 mt-4">Perfil de usuário</h1>
+    <div class="bd-example " style="width: 800px; height: 600px; display:block; margin:auto; margin-top:50px;">
+        <div id="carouselExampleCaptions" class="carousel slide" data-ride="carousel">
+            <ol class="carousel-indicators">
+                <li data-target="#carouselExampleCaptions" data-slide-to="0" class="active"></li>
+                <li data-target="#carouselExampleCaptions" data-slide-to="1"></li>
+                <li data-target="#carouselExampleCaptions" data-slide-to="2"></li>
+            </ol>
+            <div class="carousel-inner border border-light">
+                <div class="carousel-item active">
+                    <img src="imagens/talon.jpeg" class="d-block w-100" alt="...">
+                    <div class="carousel-caption d-none d-md-block">
+                        <h5>Talon</h5>
+                        <p>"O lado ruim de se perder uma lamina e ter que procurar dentro de cada uma de minhas vítimas"</p>
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <img src="imagens/fiora.jpeg" class="d-block w-100" alt="...">
+                    <div class="carousel-caption d-none d-md-block">
+                        <h5>Fiora</h5>
+                        <p>"Lamina Afiada, Mente Afiada"</p>
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <img src="imagens/projeto.jpg" class="d-block w-100" alt="...">
+                    <div class="carousel-caption d-none d-md-block">
+                        <h5>Projeto Fiora</h5>
+                        <p>"Isto era pra ser algum tipo de desafio?"</p>
+                    </div>
+                </div>
             </div>
-            <div class="col-4"> <img src="<?= $imagemUsuario ?>" alt="Avatar" width="200" height="200"></div>
-            <div class="col-6">
-                <h2 class="text-light">Nome: <?= $nome ?></h2>
-                <h2 class="text-light">E-mail: <?= $email ?></h2>
-                <h2 class="text-light">Data de Cadastro: <?= date('d/m/Y H:i:s', strtotime($dataCriacao)) ?></h2>
-            </div>
+            <a class="carousel-control-prev" href="#carouselExampleCaptions" role="button" data-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="sr-only">Previous</span>
+            </a>
+            <a class="carousel-control-next" href="#carouselExampleCaptions" role="button" data-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="sr-only">Next</span>
+            </a>
         </div>
     </div>
-
-
-
 
 
 
