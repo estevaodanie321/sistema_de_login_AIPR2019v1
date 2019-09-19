@@ -10,29 +10,40 @@ function verificar_entrada($entrada)
     $saida = htmlspecialchars($saida);
     return $saida;
 }
-if(isset ($_POST['action']) &&
-    $_POST['action'] == 'senha'){
-        //Apenas para debugg
-        //echo "<strong>Recuperação de Senha</strong>";
-        $emailSenha = verificar_entrada($_POST["emailSenha"]);
-        $sql= $conecta->prepare("SELECT idUsuario FROM usuario WHERE email= ?");
-        $sql->bind_param("s", $emailSenha);
-        $sql->execute();
-        $resultado= $sql->get_result();
-        if($resultado->num_rows > 0){
-        //Existe o usuario no banco de dados
-        //debud teste
-        //echo "<p class=\"text-success\">E-mail encontrado</p>";
-        $frase = "@bomdiameuamigo@#";
-        $frase_secreta = str_shuffle($frase);
-        $token = substr($frase_secreta,0,10);
-        echo '<p>$token</p>';
-        }else{
-            echo '<p class="text-danger">E-mail não encontrado</p>';
-        }
-}
 
-else if (
+if (
+    isset($_POST['action']) &&
+    $_POST['action'] == 'senha'
+) {
+
+    $emailSenha = verificar_entrada($_POST["emailSenha"]);
+    $sql = $conecta->prepare("SELECT idUsuario FROM usuario WHERE email = ?");
+    $sql->bind_param("s", $emailSenha);
+    $sql->execute();
+    $resultado = $sql->get_result();
+    if ($resultado->num_rows > 0) {
+        //Existe no banco de dados
+        //debugg/Testes
+        //echo '<p class="text-success"> E-mail  Encontrado</p>';
+        $frase = "|LojasAmericanas|";
+        $frase_secreta = str_shuffle($frase); //embaralha a fras
+        $token = substr($frase_secreta, 0, 10); // pega os 10 primeiros caracteres
+        //echo "<p>$token</p>";
+        $sql = $conecta->prepare("UPDATE usuario SET  token = ?, tempo_de_vida = DATE_ADD(NOW(), INTERVAL 1 MINUTE) WHERE email = ?");
+        $sql->bind_param("ss", $token, $emailSenha);
+        $sql->execute();
+
+        $link = "<a href=\"gerar_senha.php?token=$token\">Gere sua Nova Senha Aqui </a>";
+        //esse linque deve ser enviado por email
+        echo $link;
+    } else {
+        echo '<p class="text-danger"> E-mail Não Encontrado</p>';
+    }
+
+        //apenas para debugg 
+        //echo "<strong>Recuperação De Senha</strong>"
+    ;
+} else if (
     isset($_POST['action']) &&
     $_POST['action'] == 'login'
 ) {
@@ -51,22 +62,16 @@ else if (
         //Colocando o nome do usuário na Sessão
         $_SESSION['nomeUsuario'] = $nomeUsuario;
         echo "ok";
+
         if (!empty($_POST['lembrar'])) {
-            //Se não estiver vazio
-            //Armazenar Login e Senha no Cookie
-            setcookie(
-                "nomeUsuario",
-                $nomeUsuario,
-                time() + (30 * 24 * 60 * 60)
-            );
-            setcookie(
-                "senhaUsuario",
-                $senhaUsuario,
-                time() + (30 * 24 * 60 * 60)
-            ); //30 dias em segundos
+            // Se não estiver vazio
+            //Armazenar login e senha no Cookie 
+            setcookie("nomeUsuario", $nomeUsuario, time() + (30 * 24 * 60 * 60));
+            setcookie("senhaUsuario", $senhaUsuario, time() + (30 * 24 * 60 * 60));
         } else {
-            //Se estiver vazio
-            setcookie("nomeUsuario", "");
+
+
+            setcookie("nomeUsuaruio", "");
             setcookie("senhaUsuario", "");
         }
     } else {
@@ -83,8 +88,8 @@ else if (
     $emailUsuario = verificar_entrada($_POST['emailUsuário']);
     $senhaUsuario = verificar_entrada($_POST['senhaUsuário']);
     $senhaConfirma = verificar_entrada($_POST['senhaConfirma']);
-    $urlAvatar = verificar_entrada($_POST['urlAvatar']);
-    //$concordar = $_POST['concordar'];
+    $imagemUsuario = verificar_entrada($_POST['imgUsuario']);
+    $concordar = $_POST['concordar'];
     $dataCriacao = date("Y-m-d H:i:s");
 
     //Hash de senha / Codificação de senha em 40 caracteres
@@ -109,8 +114,7 @@ else if (
             echo "<p>E-mail já em uso, tente outro</p>";
         } else { //Cadastro de usuário
             $sql = $conecta->prepare("INSERT into usuario 
-            (nome, nomeUsuario, email, senha, dataCriacao, 
-            avatar_url) 
+            (nome, nomeUsuario, email, senha, imagem, dataCriacao) 
             values(?, ?, ?, ?, ?, ?)");
             $sql->bind_param(
                 "ssssss",
@@ -118,8 +122,8 @@ else if (
                 $nomeUsuario,
                 $emailUsuario,
                 $senha,
-                $dataCriacao,
-                $urlAvatar
+                $imagemUsuario,
+                $dataCriacao
             );
             if ($sql->execute()) {
                 echo "<p>Registrado com sucesso</p>";
