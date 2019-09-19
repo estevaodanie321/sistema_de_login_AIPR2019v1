@@ -10,7 +10,29 @@ function verificar_entrada($entrada)
     $saida = htmlspecialchars($saida);
     return $saida;
 }
-if (
+if(isset ($_POST['action']) &&
+    $_POST['action'] == 'senha'){
+        //Apenas para debugg
+        //echo "<strong>Recuperação de Senha</strong>";
+        $emailSenha = verificar_entrada($_POST["emailSenha"]);
+        $sql= $conecta->prepare("SELECT idUsuario FROM usuario WHERE email= ?");
+        $sql->bind_param("s", $emailSenha);
+        $sql->execute();
+        $resultado= $sql->get_result();
+        if($resultado->num_rows > 0){
+        //Existe o usuario no banco de dados
+        //debud teste
+        //echo "<p class=\"text-success\">E-mail encontrado</p>";
+        $frase = "@bomdiameuamigo@#";
+        $frase_secreta = str_shuffle($frase);
+        $token = substr($frase_secreta,0,10);
+        echo '<p>$token</p>';
+        }else{
+            echo '<p class="text-danger">E-mail não encontrado</p>';
+        }
+}
+
+else if (
     isset($_POST['action']) &&
     $_POST['action'] == 'login'
 ) {
@@ -29,18 +51,24 @@ if (
         //Colocando o nome do usuário na Sessão
         $_SESSION['nomeUsuario'] = $nomeUsuario;
         echo "ok";
-
-        if(!empty($_POST['lembrar'])){
+        if (!empty($_POST['lembrar'])) {
             //Se não estiver vazio
-            //Armazenar login e senha no cookie
-            setcookie("nomeUsuario", $nomeUsuario, time()+(30*24*60*60));
-            setcookie("senhaUsuario", $senhaUsuario, time()+(30*24*60*60));//30 dias em segundos
-        }else{
-
-            setcookie("nomeUsuario","");
+            //Armazenar Login e Senha no Cookie
+            setcookie(
+                "nomeUsuario",
+                $nomeUsuario,
+                time() + (30 * 24 * 60 * 60)
+            );
+            setcookie(
+                "senhaUsuario",
+                $senhaUsuario,
+                time() + (30 * 24 * 60 * 60)
+            ); //30 dias em segundos
+        } else {
+            //Se estiver vazio
+            setcookie("nomeUsuario", "");
             setcookie("senhaUsuario", "");
         }
-
     } else {
         echo "usuário e senha não conferem!";
     }
@@ -55,8 +83,8 @@ if (
     $emailUsuario = verificar_entrada($_POST['emailUsuário']);
     $senhaUsuario = verificar_entrada($_POST['senhaUsuário']);
     $senhaConfirma = verificar_entrada($_POST['senhaConfirma']);
-    $imagemUsuario = verificar_entrada($_POST['imgUsuario']);
-    $concordar = $_POST['concordar'];
+    $urlAvatar = verificar_entrada($_POST['urlAvatar']);
+    //$concordar = $_POST['concordar'];
     $dataCriacao = date("Y-m-d H:i:s");
 
     //Hash de senha / Codificação de senha em 40 caracteres
@@ -81,7 +109,8 @@ if (
             echo "<p>E-mail já em uso, tente outro</p>";
         } else { //Cadastro de usuário
             $sql = $conecta->prepare("INSERT into usuario 
-            (nome, nomeUsuario, email, senha, imagem, dataCriacao) 
+            (nome, nomeUsuario, email, senha, dataCriacao, 
+            avatar_url) 
             values(?, ?, ?, ?, ?, ?)");
             $sql->bind_param(
                 "ssssss",
@@ -89,8 +118,8 @@ if (
                 $nomeUsuario,
                 $emailUsuario,
                 $senha,
-                $imagemUsuario,
-                $dataCriacao
+                $dataCriacao,
+                $urlAvatar
             );
             if ($sql->execute()) {
                 echo "<p>Registrado com sucesso</p>";
